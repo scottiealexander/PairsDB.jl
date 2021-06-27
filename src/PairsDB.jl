@@ -7,12 +7,10 @@ const CYCLE_DURATION = 0.24997832635983264
 
 const db_dir = joinpath(@__DIR__, "..", "data")
 
-export AbstractDB, DB, get_database, get_data, get_type, get_param,
-    get_uniform_param
+export DB, get_database, get_data, get_type, get_param,
+    get_uniform_param, get_ids
 # ============================================================================ #
-abstract type AbstractDB end
-# ============================================================================ #
-struct DB <: AbstractDB
+struct DB
     db::Vector{Pair{Int16, Vector{String}}}
     typ::String
 end
@@ -43,6 +41,7 @@ function Base.iterate(db::DB, state::Integer)
 end
 
 @inline get_type(db::DB) = db.typ
+@inline get_ids(db::DB) = first.(db)
 # ============================================================================ #
 function get_uniform_param(pair::Pair{Int16,Vector{String}}, name::String)
     out = get_param(pair, name)
